@@ -40,6 +40,7 @@ app.get('/',async(req,res)=>{
 app.use('/auth',require('./routes/authRoutes'));
 app.use('/dashboard',require('./routes/dashboardRoutes'));
 app.use('/user',require('./routes/userRoutes'));
+app.use('/help',require('./routes/helpRoutes'));
 
 
 app.listen(PORT,()=>{
