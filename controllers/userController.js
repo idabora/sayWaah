@@ -8,7 +8,7 @@ module.exports.completeProfile = async (req, res) => {
             return res.status(400).json({ message: "City,Occupation and Gender is requred." })
         }
 
-        const updateduser = await User.findByIdAndUpdate(req.body.userId, { city, gender, occupation, location: { type: "Point", coordinates: [longitude, lattitude] } }, { new: true })
+        const updateduser = await User.findByIdAndUpdate(req.body.userId, { city, gender, occupation, location: { type: "Point", coordinates: [longitude, lattitude] }, isProfileCompleted:true }, { new: true })
 
         return res.status(200).json({ user: updateduser })
     } catch (err) {

@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema({
     occupation: {
         type: String,
         max: 50
+    },
+    isProfileCompleted:{
+        type:Boolean,
+        default:false
     }
     // phone: {
     //     type: String,
