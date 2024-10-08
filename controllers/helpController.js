@@ -1,7 +1,7 @@
 module.exports.addForHelp= async(req,res)=>{
-
+    console.log("HELOOOOOOOOOOOOO");
     if(!req.body?.isProfileCompleted){
-        return res.redirect('/user/completeprofile')
+        return res.render('completeProfile')
     }
     res.send("profile completed")
 

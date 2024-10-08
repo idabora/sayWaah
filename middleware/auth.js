@@ -3,11 +3,15 @@ const { User } = require("../Model");
 module.exports.isAuth = async (req, res, next) => {
     if (req.session.isAuthenticated) {
 
-        let user=await User.findById(req.session.userId,"firstName lastName email city isProfileCompleted")
-        req.body={...req.body,...user,...req.session.userId};
-        for(let key in user){
-            req.body[key]=user[key];
-        }
+        let user=await User.findOne({_id:req.session.userId},"firstName lastName email city isProfileCompleted");
+        // console.log("++",user,"&&",req.session,"^^",req.user);
+        // let session = req.session;
+        req.user={...user._doc,...req.session};
+        // console.log(req.user);
+        // for(let key in user){
+        //     req.user[key]=user[key];
+        // }
+        console.log(req.user);
         // req.body.userId = req.session.userId;
 
         next();
