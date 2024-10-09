@@ -30,6 +30,12 @@ const userSchema = new mongoose.Schema({
     city: {
         type: String,
     },
+    state: {
+        type: String
+    },
+    country: {
+        type: String
+    },
     gender: {
         type: String,
         enum: ['Male', 'Female', 'Other'],
@@ -45,9 +51,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         max: 50
     },
-    isProfileCompleted:{
-        type:Boolean,
-        default:false
+    isProfileCompleted: {
+        type: Boolean,
+        default: false
     }
     // phone: {
     //     type: String,
