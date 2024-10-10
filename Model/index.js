@@ -1,3 +1,4 @@
 const User=require("./userSchema");
+const Help=require("./helpSchema");
 
-module.exports={User}
+module.exports={User , Help}
