@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>get profile</title>
+</head>
+
+<body>
+    HERE you landed safely................
+    <div class="container">
+        <div class="details">
+            <h2>First Name:</h2>
+            {{user}}
+            <p>{{user.firstName}}</p>
+            <h2>Last Name:</h2>
+            <p>{{user.lastName}}</p>
+            <h2>Gender:</h2>
+            <p>{{user.gender}}</p>
+            <h2>Country:</h2>
+            <p>{{user.country}}</p>
+            <h2>State:</h2>
+            <p>{{user.state}}</p>
+            <h2>City:</h2>
+            <p>{{user.City}}</p>
+            <h2>Occupation:</h2>
+            <p>{{user.occupation}}</p>
+        </div>
+        <input type="submit" id="editdetails" value="Edit Details">
+        <a href="/user/completeprofile"></a>
+
+    </div>
+</body>
+
+</html>

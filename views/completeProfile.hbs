@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>complete profile</title>
+</head>
+
+<body>
+    <form id="myform">
+        <label for="gender">Gender</label>
+        <label for="male">Male</label>
+        <input type="radio" name="gender" id="male" value="Male">
+        <label for="Female">Female</label>
+        <input type="radio" name="gender" id="female" value="female">
+        <label for="Other">Other</label>
+        <input type="radio" name="gender" id="other" value="Other">
+        <label for="occupation">Occupation</label>
+        <input type="radio" name="occupation" id="student" value="Student">
+        <input type="radio" name="occupation" id="employed" value="Employed">
+        <input type="radio" name="occupation" id="other" value="Other">
+
+
+        <label for="country">Country:</label>
+        <select id="country" name="country">
+            <option value="">Select Country</option>
+        </select>
+
+        <!-- Dropdown for State -->
+        <label for="state">State:</label>
+        <select id="state" name="state" disabled>
+            <option value="">Select State</option>
+        </select>
+
+        <!-- Dropdown for City -->
+        <label for="city">City:</label>
+        <select id="city" name="city" disabled>
+            <option value="">Select City</option>
+        </select>
+
+        <input type="submit" value="Submit">
+        <div id="response-container"></div>
+
+        {{!-- <input type="submit" id="editdetails" value="Edit Details"> --}}
+
+    </form>
+
+    <script>
+        const countrySelect = document.getElementById('country');
+        const stateSelect = document.getElementById('state');
+        const citySelect = document.getElementById('city');
+        const responseContainer = document.getElementById('response-container');
+        const editdDetailsContainer = document.getElementById('editdetails');
+
+
+        // Your API token for authorization (Replace with your actual token)
+        const apiToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJhbnVyb2RoazgyQGdtYWlsLmNvbSIsImFwaV90b2tlbiI6InV1LWREbTh1UjZBdGZVbEFoTFFpR3lMOXFfUmxNZHBqTEV0Q3lZbURRckNFNEhXRmthRkx1X2xRNXhUbU9ZVnROOWcifSwiZXhwIjoxNzI4NjQ4OTE2fQ.sLoy5gso8rbVOb5z06mRTyeK-sOernbrXnus8wpIsag';
+
+        const headers = {
+            "Authorization": `Bearer ${apiToken}`,
+            "Accept": "application/json"
+        };
+
+        // Function to fetch countries from API
+        async function fetchCountries() {
+            console.log("HEREEE")
+            const response = await fetch("https://www.universal-tutorial.com/api/countries", { headers });
+            const countries = await response.json();
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.country_name;
+                option.text = country.country_name;
+                countrySelect.add(option);
+            });
+        }
+
+        // Function to fetch states based on country selection
+        async function fetchStates(country) {
+            stateSelect.innerHTML = '<option value="">Select State</option>'; // Reset state options
+            citySelect.innerHTML = '<option value="">Select City</option>';   // Reset city options
+            citySelect.disabled = true;
+
+            if (country !== "") {
+                const response = await fetch(`https://www.universal-tutorial.com/api/states/${country}`, { headers });
+                const states = await response.json();
+
+                stateSelect.disabled = false;
+                states.forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state.state_name;
+                    option.text = state.state_name;
+                    stateSelect.add(option);
+                });
+            } else {
+                stateSelect.disabled = true;
+            }
+        }
+
+        // Function to fetch cities based on state selection
+        async function fetchCities(state) {
+            citySelect.innerHTML = '<option value="">Select City</option>'; // Reset city options
+
+            if (state !== "") {
+                const response = await fetch(`https://www.universal-tutorial.com/api/cities/${state}`, { headers });
+                const cities = await response.json();
+
+                citySelect.disabled = false;
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.city_name;
+                    option.text = city.city_name;
+                    citySelect.add(option);
+                });
+            } else {
+                citySelect.disabled = true;
+            }
+        }
+
+        // Event listeners for dynamic changes
+        countrySelect.addEventListener('change', (event) => {
+            fetchStates(event.target.value);
+        });
+
+        stateSelect.addEventListener('change', (event) => {
+            fetchCities(event.target.value);
+        });
+
+        // Initial population of countries
+        fetchCountries();
+
+        document.getElementById('myform').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);  // Use event.target to get the form element
+            const data = Object.fromEntries(formData.entries());
+            console.log('Success:', data, formData);
+            try {
+                const response = await fetch('/user/completeprofile', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&", result)
+                if (response.ok) {
+                    // Redirect to the profile page on success
+                    window.location.href = result.redirectUrl;
+                } else {
+                    responseContainer.innerHTML = result.message; // Display error message
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        })
+
+        editdDetailsContainer.addEventListener('submit', async (event) => {
+            let response = await fetch('/user/editdetails', {
+                mrthod:"PUT",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = response.json();
+
+        })
+
+    </script>
+</body>
+
+</html>

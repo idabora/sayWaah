@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Info</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="details">
+            <form id="posthelp">
+
+                <input type="text" name="firstName" id="firstname" placeholder="First Name" required>
+                <input type="text" name="lastName" id="lastname" placeholder="Last Name" requierd>
+                <input type="text" name="description" id="description" placeholder="Description" required>
+                <input type="text" name="category" id="categoory" placeholder="category" required>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div id="response-container"></div>
+    </div>
+    <script>
+        const responseContainer = document.getElementById('responseContainer');
+        document.getElementById('posthelp').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            let formData = new FormData(event.target);  // Use event.target to get the form element
+            let data = Object.fromEntries(formData.entries());
+
+            // Geolocation fetching
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                const { latitude, longitude } = pos.coords;
+
+                // Properly assign latitude and longitude to the data object
+                data.latitude = latitude;
+                data.longitude = longitude;
+                console.log(data);
+
+                try {
+                    const response = await fetch('/help/posthelp', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        window.location.href = result.redirectUrl;
+                    } else {
+                        responseContainer.innerHTML = result.message; // Display error message
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+
+            }, (error) => {
+                // Handle geolocation errors
+                console.error('Geolocation error:', error);
+                responseContainer.innerHTML = 'Unable to fetch your location. Please try again.';
+            });
+        });
+
+    </script>
+</body>
+
+</html>
