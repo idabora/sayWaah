@@ -1,6 +1,7 @@
 const { User } = require('../Model/index');
 
 module.exports.dashboard = async (req, res) => {
+    await User.find()
     res.status(200).render('home');
     // return res.status(200).json({message:"DONEs"})
 }
