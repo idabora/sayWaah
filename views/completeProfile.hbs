@@ -55,7 +55,7 @@
 
 
         // Your API token for authorization (Replace with your actual token)
-        const apiToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJhbnVyb2RoazgyQGdtYWlsLmNvbSIsImFwaV90b2tlbiI6InV1LWREbTh1UjZBdGZVbEFoTFFpR3lMOXFfUmxNZHBqTEV0Q3lZbURRckNFNEhXRmthRkx1X2xRNXhUbU9ZVnROOWcifSwiZXhwIjoxNzI4NjQ4OTE2fQ.sLoy5gso8rbVOb5z06mRTyeK-sOernbrXnus8wpIsag';
+        const apiToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJhbnVyb2RoazgyQGdtYWlsLmNvbSIsImFwaV90b2tlbiI6InV1LWREbTh1UjZBdGZVbEFoTFFpR3lMOXFfUmxNZHBqTEV0Q3lZbURRckNFNEhXRmthRkx1X2xRNXhUbU9ZVnROOWcifSwiZXhwIjoxNzI4OTkxODYyfQ.9mdvR8kRgMmJg1niUOARwjxGvi93mveioPkTdlnzZcM';
 
         const headers = {
             "Authorization": `Bearer ${apiToken}`,
@@ -159,7 +159,7 @@
 
         editdDetailsContainer.addEventListener('submit', async (event) => {
             let response = await fetch('/user/editdetails', {
-                mrthod:"PUT",
+                mrthod: "PUT",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
