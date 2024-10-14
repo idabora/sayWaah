@@ -66,3 +66,7 @@ module.exports.editProfileDetails = async (req, res) => {
 
     }
 }
+
+module.exports.pingUser= async (req,res)=>{
+    
+}
