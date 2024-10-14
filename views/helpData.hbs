@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Data</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="details">
+            <h2>First Name:</h2>
+            <p>{{helpData.firstName}}</p>
+            <h2>Last Name:</h2>
+            <p>{{helpData.lastName}}</p>
+            <h2>Category:</h2>
+            <p>{{helpData.category}}</p>
+            <h2>Description:</h2>
+            <p>{{helpData.description}}</p>
+        </div>
+        <a href=`/user/pinguser/${helpData.userId}`>Accept</a>
+</body>
+
+</html>
