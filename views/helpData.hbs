@@ -20,7 +20,13 @@
             <h2>Description:</h2>
             <p>{{helpData.description}}</p>
         </div>
-        <a href=`/user/pinguser/${helpData.userId}`>Accept</a>
+        <input type="submit" value="Submit" id="pingbtn">
+        {{!-- <a href=`/user/pinguser/${helpData.userId}`>Accept</a> --}}
+<script>
+    document.getElementById('pingbtn').addEventListener('click',(event)=>{
+        console.log("PING me button clicked")
+    })
+</script>
 </body>
 
 </html>
