@@ -1,7 +1,7 @@
 const { Chat } = require('../Model')
 module.exports.userChat = async (req, res) => {
-    const { userId } = req.body;
-
+    const { userId } = req.query;
+    console.log(req.query);
     if (!userId) {
         res.status(400).json({
             message: "userId is required"
@@ -24,6 +24,7 @@ module.exports.userChat = async (req, res) => {
     if (chat.length > 0) {
         res.send(chat[0])
     } else {
+        console.log("your id-"+req.user._id+"others Id"+userId);
         let chatData = {
             chatName: 'Sender',
             isGroupChat: false,
@@ -33,7 +34,7 @@ module.exports.userChat = async (req, res) => {
         try {
             const createChat = await Chat.create(chatData);
             const fullChat = await Chat.findOne({ _id: createChat._id }).populate('users', '-password');
-            res.status(200).json(FullChat);
+            res.status(200).json(fullChat);
         } catch (error) {
             res.status(400);
             throw new Error(error.message);
@@ -56,4 +57,13 @@ module.exports.getChats = async (req, res) => {
         res.status(400);
         throw new Error(err.message);
     }
+}
+
+module.exports.chatPage= async(req,res)=>{
+    const userData = JSON.parse(decodeURIComponent(req.query.data));
+    console.log(userData);
+
+    res.render('chatPage',{userData});
+
+
 }

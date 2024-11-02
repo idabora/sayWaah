@@ -34,10 +34,18 @@ app.use(session({
 io.on('connection', (socket) => {
     console.log('a user connected');
 
-    socket.on('chat message', (msg) => {
+    socket.on('setup', (msg) => {
         console.log("message:", msg);
+
+    });
+
+    socket.on('join chat',(room)=>{
+        // room.join(room);
+        // console.log('room joined-',room);
+        socket.join(room);
+        console.log("User Joined Room: " + room);
     })
-})
+});
 
 // app.use(express.json());
 const PORT = process.env.PORT || 2020;
@@ -52,8 +60,9 @@ app.use('/auth', require('./routes/authRoutes'));
 app.use('/dashboard', require('./routes/dashboardRoutes'));
 app.use('/user', require('./routes/userRoutes'));
 app.use('/help', require('./routes/helpRoutes'));
+app.use('/chat', require('./routes/chatRoutes'));
 
 
-app.listen(PORT, () => {
+http.listen(PORT, () => {
     console.log(`app listening on http://localhost:${PORT}/auth`)
 });
