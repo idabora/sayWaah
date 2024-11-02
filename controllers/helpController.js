@@ -1,5 +1,5 @@
 const { User, Help } = require("../Model/index");
-const{objectId}=require('mongoose')
+const { objectId } = require('mongoose')
 
 module.exports.addForHelp = async (req, res) => {
     console.log("HELOOOOOOOOOOOOO");
@@ -48,28 +48,28 @@ module.exports.postHelp = async (req, res) => {
     }
 };
 
-module.exports.getHelpInfo = async(req,res)=>{
-try {
-    
-    const {id}=req.params;
-    console.log("++>>",req.params,id);
-    if(!id){
-        return res.status(400).json({message:"_id not found",redirectUrl:'/dashboard'})
-}
+module.exports.getHelpInfo = async (req, res) => {
+    try {
 
-let helpData = await Help.findById(id);
-console.log(helpData);
-if(!helpData){
-    return res.status(400).json({message:"Help Data not found"});
-}
+        const { id } = req.params;
+        console.log("++>>", req.params, id);
+        if (!id) {
+            return res.status(400).json({ message: "_id not found", redirectUrl: '/dashboard' })
+        }
 
-return res.status(200).render('helpData',{helpData});
-} catch (err) {
-    console.error(err);
-    return res.status(400).json({
-        message: "Error getting Help Info.",
-        error: err.message
-    });
-}
+        let helpData = await Help.findById(id);
+        console.log(helpData);
+        if (!helpData) {
+            return res.status(400).json({ message: "Help Data not found" });
+        }
+
+        return res.render('helpData', { helpData: helpData });
+    } catch (err) {
+        console.error(err);
+        return res.status(400).json({
+            message: "Error getting Help Info.",
+            error: err.message
+        });
+    }
 
 }

@@ -10,23 +10,45 @@
 <body>
 
     <div class="container">
-        <div class="details">
-            <h2>First Name:</h2>
-            <p>{{helpData.firstName}}</p>
-            <h2>Last Name:</h2>
-            <p>{{helpData.lastName}}</p>
-            <h2>Category:</h2>
-            <p>{{helpData.category}}</p>
-            <h2>Description:</h2>
-            <p>{{helpData.description}}</p>
-        </div>
-        <input type="submit" value="Submit" id="pingbtn">
-        {{!-- <a href=`/user/pinguser/${helpData.userId}`>Accept</a> --}}
-<script>
-    document.getElementById('pingbtn').addEventListener('click',(event)=>{
-        console.log("PING me button clicked")
-    })
-</script>
+        <form id="helpForm" onsubmit="submitData(event)">
+            <div class="details">
+                <h2>First Name:</h2>
+                <input type="text" name="firstName" value="{{helpData.firstName}}" readonly>
+
+                <h2>Last Name:</h2>
+                <input type="text" name="lastName" value="{{helpData.lastName}}" readonly>
+
+                <h2>Category:</h2>
+                <input type="text" name="category" value="{{helpData.category}}" readonly>
+
+                <h2>Description:</h2>
+                <textarea name="description" readonly>{{helpData.description}}</textarea>
+            </div>
+            <input type="submit" value="Submit" id="pingbtn">
+        </form>
+
+        <script>
+            const userId = "{{helpData.userId}}";
+            function submitData(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                const formData = new FormData(document.getElementById("helpForm"));
+                const formDataObject = Object.fromEntries(formData.entries());
+                console.log(formDataObject);
+                fetch(`/chat/user?userId=${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => console.log(data))
+                    .catch(error => console.error('Error:', error));
+            }
+        </script>
+
+    </div>
+
 </body>
 
 </html>
