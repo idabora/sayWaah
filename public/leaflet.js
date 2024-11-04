@@ -34,7 +34,9 @@ function mapActive() {
                         console.log("Markers data:", data);
 
                         // Loop through the markers data and add them to the map
+                        let i=0;
                         data.data.forEach(ele => {
+                            console.log("ELEMENT-",i++);
                             let [lat, lng] = ele.location.coordinates;
                             let content = ele.category;
                             let id= ele._id;

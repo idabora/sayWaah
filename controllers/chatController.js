@@ -34,7 +34,9 @@ module.exports.userChat = async (req, res) => {
         try {
             const createChat = await Chat.create(chatData);
             const fullChat = await Chat.findOne({ _id: createChat._id }).populate('users', '-password');
-            res.status(200).json(fullChat);
+            // res.status(200).json(fullChat);
+            return res.status(200).json({ message: "chat page", redirectUrl: '/chat/chatbox' });
+
         } catch (error) {
             res.status(400);
             throw new Error(error.message);
@@ -43,6 +45,12 @@ module.exports.userChat = async (req, res) => {
 
 
 }
+
+module.exports.chatBox = async (req,res)=>{
+    res.render('chatPage');
+}
+
+
 
 module.exports.getChats = async (req, res) => {
     try {
