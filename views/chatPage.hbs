@@ -14,10 +14,11 @@
     <div>CHAT PAGE</div>
 
     <script>
+        const userId = "{{userId}}";
         const socket = io();
 
         socket.emit('setup', "HELLO I AM HERE");
-        socket.emit("join chat", data._id);
+        socket.emit("join chat", `${userId}`)
     </script>
 </body>
 

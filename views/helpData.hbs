@@ -43,7 +43,7 @@
                     },
                 })
                     .then(response =>{
-                        window.location.href='/chat/chatBox'
+                        window.location.href=`/chat/chatBox?userId=${userId}`
                     })
                     .catch(error => console.error('Error:', error));
                     //.then(data => console.log(data))
