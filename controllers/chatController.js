@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongoose");
 const { Chat } = require('../Model')
 module.exports.userChat = async (req, res) => {
     const { userId } = req.query;
@@ -15,7 +16,7 @@ module.exports.userChat = async (req, res) => {
         ]
     }).populate('users', '-password')
         .populate('latestMessage');
-
+    console.log("CHAT---", chat);
     // chat = await User.populate(chat, {
     //     path: "latestMessage.sender",
     //     select: "name pic email",
@@ -24,7 +25,7 @@ module.exports.userChat = async (req, res) => {
     if (chat.length > 0) {
         res.send(chat[0])
     } else {
-        console.log("your id-"+req.user._id+"others Id"+userId);
+        console.log("your id-" + req.user._id + "others Id" + userId);
         let chatData = {
             chatName: 'Sender',
             isGroupChat: false,
@@ -46,20 +47,22 @@ module.exports.userChat = async (req, res) => {
 
 }
 
-module.exports.chatBox = async (req,res)=>{
-    res.render('chatPage');
+module.exports.chatBox = async (req, res) => {
+    console.log(req.query);
+    const userId = req.query.userId;
+    return res.render('chatPage', { userId: userId });
 }
 
 
 
 module.exports.getChats = async (req, res) => {
     try {
-        const chats = await Chat.find({ users: { $elemMatch: { $eq: [userId] } } })
-            .populate('users', '-password')
-            .populate('latestMessage')
+        const chats = await Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
             .sort({ 'updatedAt': -1 });
+        // .populate('users', '-password')
+        // .populate('latestMessage')
 
-        return res.status(200).josn(chats);
+        return res.status(200).json(chats);
 
     } catch (err) {
         res.status(400);
@@ -67,11 +70,11 @@ module.exports.getChats = async (req, res) => {
     }
 }
 
-module.exports.chatPage= async(req,res)=>{
+module.exports.chatPage = async (req, res) => {
     const userData = JSON.parse(decodeURIComponent(req.query.data));
     console.log(userData);
 
-    res.render('chatPage',{userData});
+    res.render('chatPage', { userData });
 
 
 }
